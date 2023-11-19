@@ -1,4 +1,4 @@
-import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
+import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
 import { auth } from "./config.js";
 
 const email = document.querySelector("#email");
@@ -8,35 +8,33 @@ const form = document.querySelector("form");
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  signInWithEmailAndPassword(auth, email.value, password.value)
+  createUserWithEmailAndPassword(auth, email.value, password.value)
     .then((userCredential) => {
       // Signed up
       const user = userCredential.user;
       console.log(user);
-      Swal.fire({
-        position: "top-center",
-        icon: "success",
-        title: "logged in as " + user.email,
-        showConfirmButton: false,
-        timer: 1500,
-      });
 
-      setTimeout(() => {
-        window.location = "./todo.html";
-      }, 2000);
-      // ...
-    })
-    .catch(async (error) => {
-      await Swal.fire({
-        position: "top-center",
-        icon: "error",
-        title: "Not an Account ",
+      Swal.fire({
+        title: "Registration Successful",
+        text: "You have successfully registered!",
+        icon: "success",
         showConfirmButton: false,
         timer: 1500,
+      }).then(() => {
+        window.location = "./todo.html";
       });
-      window.location = "./signup.html";
+    })
+    .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log(errorMessage);
+
+      Swal.fire({
+        title: "Registration Error",
+        text: errorMessage,
+        icon: "error",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     });
 });
