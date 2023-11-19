@@ -104,6 +104,15 @@ async function render(uid) {
     button.addEventListener("click", async () => {
       console.log("Update button clicked", [index]);
       const newTodo = prompt("Enter Updated todo Task");
+      if (newTodo == "") {
+        Swal.fire({
+          title: "Update A Task",
+          icon: "error",
+          showConfirmButton: true,
+          timer: 1500,
+        });
+        return;
+      }
       console.log(newTodo);
       await updateDoc(doc(db, "users", Array[index].docId), {
         Todo: newTodo,
