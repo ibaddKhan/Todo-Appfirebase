@@ -69,6 +69,7 @@ onAuthStateChanged(auth, (user) => {
       }
     });
   } else {
+    window.location="./login.html"
   }
 });
 
